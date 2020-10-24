@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Form1 from "./component/form/Form1";
+import { Modal } from "./component/shared/Modal";
 
 function App() {
+  const [showModal, setShowModal] = React.useState<boolean>(false);
+
+  const toggleModal = ()=> {
+    setShowModal(!showModal);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={toggleModal}>show modal</button>
+      <Modal show={showModal} onHide={toggleModal}>
+        <h1 style={{backgroundColor: "red", color: "white", textAlign: "center"}}> example modal box...how it's going to work</h1>
+      </Modal>
+
+      <Form1 />
     </div>
   );
 }
 
 export default App;
+
+// npx create-react-app react-hook-form-example --use-npm --typescript
