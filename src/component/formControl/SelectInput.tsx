@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import cx from "classnames";
-import { FieldErrors, UseFormMethods } from "react-hook-form";
+import { FormState, UseFormMethods } from "react-hook-form";
 
 interface IOption {
   value: string | number;
@@ -13,29 +13,24 @@ type SelectInputProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLS
     name: string;
     selectOption: IOption[];
     register: () => any;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
-const SelectInput: FC<SelectInputProps> = ({ name,  label, selectOption, register, errors }) => (
+const SelectInput: FC<SelectInputProps> = ({ name, label, selectOption, register, formState }) => (
   <div className="field">
     <label className="label" htmlFor={name}>
       {label}
     </label>
-    <div  className={cx("select", errors[name] && "is-danger")}>
-      <select
-        name={name}
-        id={name}
-        ref={register}
-      >{
-        selectOption.map((v, k) => (
-        <option value={v.value}>{v.display}</option>
-        ))
-      }
+    <div className={cx("select", formState.touched[name] && formState.errors[name] && "is-danger")}>
+      <select name={name} id={name} ref={register}>
+        {selectOption.map((v, k) => (
+          <option value={v.value}>{v.display}</option>
+        ))}
       </select>
 
-      {errors[name] && (
+      {formState.touched[name] && formState.errors[name] && (
         <p className="help is-danger" role="alert">
-          {errors[name].message}
+          {formState.errors[name].message}
         </p>
       )}
     </div>

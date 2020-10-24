@@ -79,9 +79,7 @@ const defaultValues = {
 };
 
 export default () => {
-  const { control, register, handleSubmit, errors, watch, formState, getValues, setValue, reset } = useForm<
-    IFormInputs
-  >({
+  const { control, register, handleSubmit, watch, formState, getValues, setValue, reset } = useForm<IFormInputs>({
     mode: "onBlur", //onChange
     resolver: yupResolver(schema),
     defaultValues,
@@ -109,11 +107,11 @@ export default () => {
         name="dob"
         intialValue={getValues().dob}
         control={control}
-        errors={errors}
+        formState={formState}
         onChange={(date: any) => setValue("dob", date)}
       />
-      <Input name="firstName" type="text" label="Your Name" register={register} errors={errors} />
-      <Input name="email" type="email" label="Email" register={register} errors={errors} />
+      <Input name="firstName" type="text" label="Your Name" register={register} formState={formState} />
+      <Input name="email" type="email" label="Email" register={register} formState={formState} />
       <InputFormat
         name="age"
         label="Your Age"
@@ -121,9 +119,9 @@ export default () => {
         allowNegative={false}
         register={register}
         control={control}
-        errors={errors}
+        formState={formState}
       />
-      <InputFormat name="salary" label="Salary" thousandSeparator control={control} errors={errors} />
+      <InputFormat name="salary" label="Salary" thousandSeparator control={control} formState={formState} />
       <InputFormat
         name="phone"
         label="Mobile Number"
@@ -132,26 +130,26 @@ export default () => {
         mask="_"
         allowEmptyFormatting
         control={control}
-        errors={errors}
+        formState={formState}
       />
       <SelectInput
         name="occupation"
         label="Occupation"
         register={register}
-        errors={errors}
+        formState={formState}
         selectOption={sampleOccupationData}
       />
-      <CustomSelect name="food" label="Food Items" options={options} control={control} errors={errors} />
-      <Textarea name="message" label="Message" register={register} errors={errors} />
-      <Checkbox name="hasPhone" label="Message" register={register} errors={errors} />
-      <Radio name="gender" label="Male" register={register} errors={errors} />
-      <Radio name="gender" label="Female" register={register} errors={errors} />
+      <CustomSelect name="food" label="Food Items" options={options} control={control} formState={formState} />
+      <Textarea name="message" label="Message" register={register} formState={formState} />
+      <Checkbox name="hasPhone" label="Message" register={register} formState={formState} />
+      <Radio name="gender" label="Male" register={register} formState={formState} />
+      <Radio name="gender" label="Female" register={register} formState={formState} />
       <FileInput name="files" control={control} />
 
       {hasPhone && <h1>show phone control</h1>}
-      {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
+      <pre>{JSON.stringify(formState, null, 2)}</pre>
       {/* <pre>{JSON.stringify(getValues().salary, null, 2)}</pre> */}
-      <pre>{JSON.stringify(getValues(), null, 2)}</pre>
+      {/* <pre>{JSON.stringify(getValues(), null, 2)}</pre> */}
 
       <button type="submit" className={cx("button", formState.isSubmitting && "is-loading")}>
         Submit

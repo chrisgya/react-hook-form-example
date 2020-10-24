@@ -1,30 +1,30 @@
 import React, { FC } from "react";
-import { Controller, FieldErrors, UseFormMethods } from "react-hook-form";
+import { Controller, FormState, UseFormMethods } from "react-hook-form";
 import Dropzone from "react-dropzone";
 
-type FileInputProps = React.DetailedHTMLProps<any, any> & Partial<UseFormMethods> & {
+type FileInputProps = React.DetailedHTMLProps<any, any> &
+  Partial<UseFormMethods> & {
     name: string;
     setFiles: (files: object[]) => void;
     disabled?: boolean;
     register: () => any;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
-  const dropzoneStyles = {
-    border: "dashed 3px",
-    borderColor: "#eee",
-    borderRadius: "5px",
-    paddingTop: "30px",
-    textAlign: "center" as "center",
-    height: "200px",
-  };
-  
-  const dropzoneActive = {
-    borderColor: "green",
-  };
+const dropzoneStyles = {
+  border: "dashed 3px",
+  borderColor: "#eee",
+  borderRadius: "5px",
+  paddingTop: "30px",
+  textAlign: "center" as "center",
+  height: "200px",
+};
 
-const FileInput: FC<FileInputProps> = ({ name, control }) => (
+const dropzoneActive = {
+  borderColor: "green",
+};
 
+const FileInput: FC<FileInputProps> = ({ name, control, formState }) => (
   <div className="field">
     <Controller
       control={control}
@@ -44,7 +44,7 @@ const FileInput: FC<FileInputProps> = ({ name, control }) => (
             {value.map((f: any, index: number) => (
               <div key={index}>
                 <span>{f.name}</span>
-                <span>{" "}</span>
+                <span> </span>
                 <span>{f.size}</span>
               </div>
             ))}

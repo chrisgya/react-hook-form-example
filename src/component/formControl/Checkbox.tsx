@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import cx from "classnames";
-import { UseFormMethods, FieldErrors } from "react-hook-form";
+import { UseFormMethods, FormState } from "react-hook-form";
 
 type CheckboxProps = React.DetailedHTMLProps<any, any> &
   Partial<UseFormMethods> & {
@@ -8,19 +8,19 @@ type CheckboxProps = React.DetailedHTMLProps<any, any> &
     name: string;
     disabled?: boolean;
     register: () => any;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
-const Checkbox: FC<CheckboxProps> = ({ name, label, disabled, register, errors, ...rest }) => (
+const Checkbox: FC<CheckboxProps> = ({ name, label, disabled, register, formState, ...rest }) => (
   <div className="field">
     <div className="control">
-      <label className={cx("checkbox", errors[name] && "is-danger")}>
-        <input type="checkbox" name={name} id={name}disabled={disabled} ref={register} {...rest} />
+      <label className={cx("checkbox", formState.touched[name] && formState.errors[name] && "is-danger")}>
+        <input type="checkbox" name={name} id={name} disabled={disabled} ref={register} {...rest} />
         {label}
       </label>
-      {errors[name] && (
+      {formState.touched[name] && formState.errors[name] && (
         <p className="help is-danger" role="alert">
-          {errors[name].message}
+          {formState.errors[name].message}
         </p>
       )}
     </div>

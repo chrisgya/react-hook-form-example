@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Controller, FieldErrors, UseFormMethods } from "react-hook-form";
+import { Controller, FormState, UseFormMethods } from "react-hook-form";
 import ReactSelect, { CommonProps } from "react-select";
 import cx from "classnames";
 
@@ -10,7 +10,7 @@ type CustomSelectProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElemen
     name: string;
     isSearchable?: boolean;
     isClearable?: boolean;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
 const CustomSelect: FC<CustomSelectProps> = ({
@@ -19,7 +19,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
   isSearchable,
   isClearable,
   control,
-  errors,
+  formState,
   placeholder,
   options,
   isMulti,
@@ -40,11 +40,11 @@ const CustomSelect: FC<CustomSelectProps> = ({
           isMulti={isMulti}
           isClearable={isClearable}
           isSearchable={isSearchable}
-          className={cx("", errors[name] && "is-danger")}
+          className={cx("", formState.touched[name] && formState.errors[name] && "is-danger")}
         />
-        {errors[name] && (
+        {formState.touched[name] && formState.errors[name] && (
           <p className="help is-danger" role="alert">
-            {errors[name].message}
+            {formState.errors[name].message}
           </p>
         )}
       </div>

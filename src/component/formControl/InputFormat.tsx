@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Controller, FieldErrors, UseFormMethods } from "react-hook-form";
+import { Controller, FormState, UseFormMethods } from "react-hook-form";
 import NumberFormat, { NumberFormatProps } from "react-number-format";
 import cx from "classnames";
 
@@ -8,7 +8,7 @@ type InputFormatProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLIn
   Partial<UseFormMethods> & {
     label: string;
     name: string;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
 //can be use for password, numbers, amount, phone, credit card and any other format...reference documentation for more details
@@ -17,7 +17,7 @@ const InputFormat: FC<InputFormatProps> = ({
   label,
   name,
   control,
-  errors,
+  formState,
   type,
   thousandSeparator,
   decimalSeparato,
@@ -42,7 +42,7 @@ const InputFormat: FC<InputFormatProps> = ({
           type={type}
           control={control}
           name={name}
-          className={cx("input", errors[name] && "is-danger")}
+          className={cx("input", formState.touched[name] && formState.errors[name] && "is-danger")}
           thousandSeparator={thousandSeparator}
           decimalSeparato={decimalSeparato}
           allowNegative={allowNegative}
@@ -54,9 +54,9 @@ const InputFormat: FC<InputFormatProps> = ({
           allowEmptyFormatting={allowEmptyFormatting}
           isNumericString={isNumericString}
         />
-        {errors[name] && (
+        {formState.touched[name] && formState.errors[name] && (
           <p className="help is-danger" role="alert">
-            {errors[name].message}
+            {formState.errors[name].message}
           </p>
         )}
       </div>

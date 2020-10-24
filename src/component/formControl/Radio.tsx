@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import cx from "classnames";
-import { FieldErrors, UseFormMethods } from "react-hook-form";
+import { FormState, UseFormMethods } from "react-hook-form";
 
 type RadioProps = React.DetailedHTMLProps<any, any> &
   Partial<UseFormMethods> & {
@@ -8,20 +8,19 @@ type RadioProps = React.DetailedHTMLProps<any, any> &
     name: string;
     disabled?: boolean;
     register: () => any;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
-const Radio: FC<RadioProps> = ({ name, label, disabled, register, errors }) => (
-
+const Radio: FC<RadioProps> = ({ name, label, disabled, register, formState }) => (
   <div className="field">
     <div className="control">
-      <label className={cx("radio", errors[name] && "is-danger")}>
+      <label className={cx("radio", formState.touched[name] && formState.errors[name] && "is-danger")}>
         <input type="radio" name={name} disabled={disabled} ref={register} />
         {label}
       </label>
-      {errors[name] && (
+      {formState.touched[name] && formState.errors[name] && (
         <p className="help is-danger" role="alert">
-          {errors[name].message}
+          {formState.errors[name].message}
         </p>
       )}
     </div>

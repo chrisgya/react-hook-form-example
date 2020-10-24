@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import cx from "classnames";
-import { FieldErrors, UseFormMethods } from "react-hook-form";
+import { FormState, UseFormMethods } from "react-hook-form";
 
 type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> &
   Partial<UseFormMethods> & {
@@ -8,26 +8,26 @@ type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputEle
     name: string;
     type: "text" | "email" | "number";
     register: () => any;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
   };
 
-const Input: FC<InputProps> = ({ name, type, label, register, errors }) => (
+const Input: FC<InputProps> = ({ name, type, label, register, formState }) => (
   <div className="field">
     <label className="label" htmlFor={name}>
       {label}
     </label>
     <div className="control">
       <input
-        className={cx("input", errors[name] && "is-danger")}
+        className={cx("input", formState.touched[name] && formState.errors[name] && "is-danger")}
         type={type}
         name={name}
         id={name}
         ref={register}
       />
 
-      {errors[name] && (
+      {!!formState.touched[name] && !!formState.errors[name] && (
         <p className="help is-danger" role="alert">
-          {errors[name].message}
+          {formState.errors[name].message}
         </p>
       )}
     </div>

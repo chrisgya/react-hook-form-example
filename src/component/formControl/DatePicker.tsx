@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Controller, FieldErrors, UseFormMethods } from "react-hook-form";
+import { Controller, FormState, UseFormMethods } from "react-hook-form";
 import Calendar, { CalendarProps } from "react-calendar";
 import cx from "classnames";
 import { format } from "date-fns";
@@ -12,7 +12,7 @@ type DatePickerProps = CalendarProps &
     dateFormat?: string;
     maxDate?: Date;
     minDate?: Date;
-    errors: FieldErrors<any>;
+    formState: FormState<any>;
     onChange: (date: Date | Date[]) => void;
   };
 
@@ -21,7 +21,7 @@ const DatePicker: FC<DatePickerProps> = ({
   minDate,
   maxDate,
   control,
-  errors,
+  formState,
   onChange,
   intialValue,
   dateFormat = "dd MMM yyyy",
@@ -60,7 +60,7 @@ const DatePicker: FC<DatePickerProps> = ({
         value={inputValue ? inputValue : intialValue ? format(intialValue, dateFormat) : ""}
         readOnly={true}
         onFocus={() => toggleCalendar(true)}
-        className={cx("input", errors[name] && "is-danger")}
+        className={cx("input", formState.touched[name] && formState.errors[name] && "is-danger")}
       />
       <Controller
         control={control}
@@ -76,9 +76,9 @@ const DatePicker: FC<DatePickerProps> = ({
                 minDate={minDate}
               />
             )}
-            {errors[name] && (
+            {formState.touched[name] && formState.errors[name] && (
               <p className="help is-danger" role="alert">
-                {errors[name].message}
+                {formState.errors[name].message}
               </p>
             )}
           </>
